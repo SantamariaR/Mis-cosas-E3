@@ -1,0 +1,150 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Santiago Scheiner}
+\title{Trabajo Computacional}
+\date{}
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+En este trabajo se estudiaron diferentes propiedades de las moléculas del metano (CH$_{4}$) y del agua (H$_{2}$O) a partir de sus matrices de denisdad ($P$) y de overlap ($S$).
+
+\end{abstract}
+
+\section{Introducción}
+
+Es posible extraer diversas características de una molécula a partir de las matrices de densidad y de overlap. La más elemental de estas características es probablemente la cantidad de electrones que se encuentran en la molécula.
+
+Puede mostrarse que la cantidad $N$ de electrones presentes en la molécula completa corresponde a:
+
+\begin{equation}
+N = tr[P.S]
+\end{equation}
+
+
+
+Es posible entonces pensar al elemento $[P.S]_{\mu \mu}$ como la cantidad de electrones presentes en el orbital atómico $\phi_{\mu}$. Esto permite entonces definir una \textit{carga efectiva} $Q_{A}$ asociada al átomo $A$ de la molécula:
+
+\begin{equation}
+Q_{A} = Z_{A} - \sum_{\mu \in A} (P.S)_{\mu \mu}
+\end{equation}
+
+Por otra parte, a partir de estas matrices es posible determinar cuán fuertes resultan determinados enlaces dentro de la molécula. Para el análisis utilizado, esta magnitud puede calcularse como:
+
+\begin{equation}
+W_{AB} = \sum_{\mu \in A} \sum_{\nu \in B} (P.S)_{\mu \nu} (P.S)_{\nu \mu}
+\end{equation}
+
+Finalmente, podemos cuantificar el grado de enlace que un único átomo tiene con todos los que lo rodean en el \textit{grado de valencia}, que se calcula de la siguiente forma:
+
+\begin{equation}
+V_{A} = \sum_{B \neq A} W_{AB}
+\end{equation}
+
+\section{Resultados y discusión}
+
+\subsection*{Molécula de metano}
+
+En primer lugar, para la molécula de metano la cantidad de electrones que se espera encontrar corresponde a la suma de todos los electrones presentes en el átomo de carbono (6) más los electrones presentes en cada átomo de hidrógeno (1):
+
+\begin{equation}
+N_{electrones} = 6 \times 1 + 1 \times 4 = 10
+\end{equation}
+
+Lo obtenido a partir de la traza de la matriz es:
+
+\begin{equation}
+N_{electrones} = 10.0003130832
+\end{equation}
+
+que, teniendo en cuenta que se está utilizando una base limitada, es una muy buena aproximación de lo esperado.
+
+Para las cargas efectivas, utilizamos los primeros cinco elementos de la diagonal para el carbono y calculamos:
+
+\begin{equation}
+Q_{C} = 6 - \sum_{\mu=1}^{5} (P.S)_{\mu \mu} = -0.2629160296000004
+\end{equation}
+
+Análogamente, para el hidrógeno tenemos:
+
+\begin{equation}
+Q_{H} = 1 - \sum_{\mu=9}^{9} (P.S)_{\mu \mu} = 0.06562056660000004
+\end{equation}
+
+Utilizando la ecuación correspondiente al grado de enlace, tenemos:
+
+\begin{equation}
+W_{CH} = \sum_{\mu \in C} \sum_{\nu \in H} (P.S)_{\mu \nu} (P.S)_{\nu \mu} = 0.9912952988019972
+\end{equation}
+
+para los enlaces $C-H$ y:
+
+\begin{equation}
+W_{HH} = \sum_{\mu \in H} \sum_{\nu \in H} (P.S)_{\mu \nu} (P.S)_{\nu \mu} = 0.0014513729898172519
+\end{equation}
+
+para los enlaces $H-H$.
+
+Por último, el grado de valencia para esta molécula resulta:
+
+\begin{equation}
+V_{C} = \sum_{X \neq C} W_{CX} = W_{CH} = 0.9912952988019972
+\end{equation}
+
+
+\subsection*{Molécula de agua}
+
+Para la molécula de agua se procede de manera análoga.
+
+La cantidad de electrones que se espera encontrar en la molécula completa es ahora la suma de todos los electrones presentes en el átomo de oxígeno (8) más los electrones presentes en cada átomo de hidrógeno (1):
+
+\begin{equation}
+N_{electrones} = 8 \times 1 + 1 \times 2 = 10
+\end{equation}
+
+A partir de la traza de la matriz, obtenemos:
+
+\begin{equation}
+N_{electrones} = 9.9999883444
+\end{equation}
+
+Para las cargas efectivas, usamos nuevamente los primeros cinco elementos de la diagonal para el oxígeno y calculamos:
+
+\begin{equation}
+Q_{O} = 8 - \sum_{\mu=1}^{5} (P.S)_{\mu \mu} = -0.33052371419999993
+\end{equation}
+
+Para el hidrógeno tenemos:
+
+\begin{equation}
+Q_{H} = 1 - \sum_{\mu=7}^{7} (P.S)_{\mu \mu} = 0.1652676849
+\end{equation}
+
+En cuanto al grado de enlace, tenemos:
+
+\begin{equation}
+W_{OH} = \sum_{\mu \in O} \sum_{\nu \in H} (P.S)_{\mu \nu} (P.S)_{\nu \mu} = 0.9577614281111234
+\end{equation}
+
+para los enlaces $O-H$ y:
+
+\begin{equation}
+W_{HH} = \sum_{\mu \in H} \sum_{\nu \in H} (P.S)_{\mu \nu} (P.S)_{\nu \mu} = 0.008502381967398026
+\end{equation}
+
+para los enlaces $H-H$.
+
+Finalmente, el grado de valencia para esta molécula resulta:
+
+\begin{equation}
+V_{O} = \sum_{X \neq O} W_{OX} = W_{OH} = 0.9577614281111234
+\end{equation}
+
+\end{document}

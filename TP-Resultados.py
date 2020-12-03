@@ -7,6 +7,7 @@ Created on Wed Dec  2 10:55:31 2020
 """
 
 import numpy as np
+from scipy.linalg import sqrtm 
 
 #Matriz de Overlap
 S_O2=np.array([[ 1.       ,0.2367   ,0.       ,0.       ,0.       ,0.       ,0.02284  ,-0.03857  ,0.       ,0.     ],
@@ -72,5 +73,35 @@ Z_O2=np.array(  [[ 0.      ,0.      ,0.      ,0.      ,0.0508  ,0.      ,0.     
                  [ 0.      ,0.      ,0.      ,0.      ,0.      ,0.      ,0.      ,0.      ,0.      ,0.    ],
                  [ 0.001   ,0.1546  ,0.1738  ,0.      ,0.      ,0.0508  ,0.6412  ,0.      ,0.      ,0.    ]])
 
-W_O2 = np.matmul(P_O2,S_O2)
-N    = np.trace(W_O2)
+
+#Analisis poblacional de Mulliken
+print('Análisis poblacional de Mulliken')
+print('--------------------------------')
+R_O2= np.dot(P_O2,S_O2)
+
+print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
+print('Cantidad de electrones calculada:\t', np.trace(R_O2))
+
+
+d = R_O2.diagonal()
+
+print('Cargas efectivas:\n')
+
+print('Cantidad de electrones del Oxígeno:\t',8)
+print('Q_Oxígeno1:\t', 8 - sum(d[0:5])) # (primeros cinco elementos de la diagonal)
+print('Q_Oxígeno2:\t', 8 - sum(d[5:10]))
+print('\n')
+print('Análisis poblacional de Lowdin')
+print('------------------------------')
+
+Ssqrt_O2= sqrtm(S_O2)
+
+print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
+print('Cantidad de electrones calculada:\t',np.trace(np.dot(Ssqrt_O2,np.dot(P_O2,Ssqrt_O2))))
+
+print('\n')
+
+print('Grado de enlace de valencia')
+print('---------------------------')
+
+
