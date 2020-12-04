@@ -77,13 +77,21 @@ Z_O2=np.array(  [[ 0.      ,0.      ,0.      ,0.      ,0.0508  ,0.      ,0.     
 #Analisis poblacional de Mulliken
 print('Análisis poblacional de Mulliken')
 print('--------------------------------')
-R_O2= np.dot(P_O2,S_O2)
+
+R_O2= np.matmul(P_O2,S_O2)
+
+d   = R_O2.diagonal()
+
+D   = np.diag(np.diag(R_O2))
+
+
 
 print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
-print('Cantidad de electrones calculada:\t', np.trace(R_O2))
+print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(R_O2))
+print('Cantidad de electrones en la molécula:\t', sum(sum(R_O2)))
+print('Cantidad de electrones compartidos en la molécula:\t', sum(sum(R_O2-D)))
 
 
-d = R_O2.diagonal()
 
 print('Cargas efectivas:\n')
 
@@ -97,11 +105,54 @@ print('------------------------------')
 Ssqrt_O2= sqrtm(S_O2)
 
 print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
-print('Cantidad de electrones calculada:\t',np.trace(np.dot(Ssqrt_O2,np.dot(P_O2,Ssqrt_O2))))
+print('Cantidad de electrones calculada:\t',np.trace(np.matmul(Ssqrt_O2,np.matmul(P_O2,Ssqrt_O2))))
+
+R2_O2 = np.matmul(Ssqrt_O2,np.matmul(P_O2,Ssqrt_O2))
 
 print('\n')
 
 print('Grado de enlace de valencia')
 print('---------------------------')
+
+#Seguro que hay una manera más elegante, pero ahora no se me ocurre.
+
+fila0   = R_O2[0,5:]
+fila1   = R_O2[1,5:]
+fila2   = R_O2[2,5:]
+fila3   = R_O2[3,5:]
+fila4   = R_O2[4,5:]
+columna0= R_O2[5:,0]
+columna1= R_O2[5:,1]
+columna2= R_O2[5:,2]
+columna3= R_O2[5:,3]
+columna4= R_O2[5:,4]
+
+W_Mull= np.dot(fila0,columna0)+np.dot(fila1,columna1)+np.dot(fila2,columna2)+np.dot(fila3,columna3)+np.dot(fila4,columna4)
+
+
+Fila0   = R2_O2[0,5:]
+Fila1   = R2_O2[1,5:]
+Fila2   = R2_O2[2,5:]
+Fila3   = R2_O2[3,5:]
+Fila4   = R2_O2[4,5:]
+Columna0= R2_O2[5:,0]
+Columna1= R2_O2[5:,1]
+Columna2= R2_O2[5:,2]
+Columna3= R2_O2[5:,3]
+Columna4= R2_O2[5:,4]
+
+
+W_Low= np.dot(Fila0,Columna0)+np.dot(Fila1,Columna1)+np.dot(Fila2,Columna2)+np.dot(Fila3,Columna3)+np.dot(Fila4,Columna4)
+
+print('Grado de enlace mediante análisis de Mülliken:\t',W_Mull)
+
+print('Grado de enlace mediante análisis de Löwdin:\t',W_Low)
+
+
+
+
+
+
+
 
 
