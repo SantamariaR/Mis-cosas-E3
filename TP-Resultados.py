@@ -74,7 +74,8 @@ Z_O2=np.array(  [[ 0.      ,0.      ,0.      ,0.      ,0.0508  ,0.      ,0.     
                  [ 0.001   ,0.1546  ,0.1738  ,0.      ,0.      ,0.0508  ,0.6412  ,0.      ,0.      ,0.    ]])
 
 
-#Analisis poblacional de Mulliken
+print('Molécula O2, con base O(A)[0,0,0] y O(B)[1.208,0,0]')
+print('\n')
 print('Análisis poblacional de Mulliken')
 print('--------------------------------')
 
@@ -89,7 +90,7 @@ D   = np.diag(np.diag(R_O2))
 print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
 print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(R_O2))
 print('Cantidad de electrones en la molécula:\t', sum(sum(R_O2)))
-print('Cantidad de electrones compartidos en la molécula:\t', sum(sum(R_O2-D)))
+print('Cantidad de electrones compartidos en la molécula:\t', sum(sum(R_O2-D))/2)
 
 
 
@@ -147,6 +148,30 @@ W_Low= np.dot(Fila0,Columna0)+np.dot(Fila1,Columna1)+np.dot(Fila2,Columna2)+np.d
 print('Grado de enlace mediante análisis de Mülliken:\t',W_Mull)
 
 print('Grado de enlace mediante análisis de Löwdin:\t',W_Low)
+
+print('\n')
+
+print('Momentos dipolares')
+print('------------------')
+
+#Acá estoy menos seguro de lo que estoy haciendo.
+Px=np.trace(np.matmul(P_O2,X_O2))
+Py=np.trace(np.matmul(P_O2,Y_O2))
+Pz=np.trace(np.matmul(P_O2,Z_O2))
+print('Eje X')
+print('PxA:\t', Px)
+print('PxB:\t', Px + 8*1.208)
+print('\n')
+print('Eje Y')
+print('PxA:\t', Py)
+print('PxB:\t', Py)
+print('\n')
+print('Eje Z')
+print('PxA:\t', Pz)
+print('PxB:\t', Pz)
+
+
+
 
 
 
