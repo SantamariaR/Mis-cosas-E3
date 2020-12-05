@@ -73,7 +73,7 @@ Z_O2=np.array(  [[ 0.      ,0.      ,0.      ,0.      ,0.0508  ,0.      ,0.     
                  [ 0.      ,0.      ,0.      ,0.      ,0.      ,0.      ,0.      ,0.      ,0.      ,0.    ],
                  [ 0.001   ,0.1546  ,0.1738  ,0.      ,0.      ,0.0508  ,0.6412  ,0.      ,0.      ,0.    ]])
 
-#Nos armamos la matriz P
+#Nos armamos la matriz P, con los resultados de los coeficientes 
 
 
 coef=np.array([[-0.703   ,0.7037 ,-0.1692 ,-0.1852 ,-0.     ,-0.0657  ,0.      ,0.      ,0.      ,-0.0944],
@@ -87,14 +87,14 @@ coef=np.array([[-0.703   ,0.7037 ,-0.1692 ,-0.1852 ,-0.     ,-0.0657  ,0.      ,
                 [ 0.     ,-0.      ,0.      ,0.      ,0.6454 ,-0.      ,0.1317 ,-0.7525 ,-0.1535  ,-0.    ],
                 [ 0.      ,0.     ,-0.      ,0.     ,-0.1317  ,0.      ,0.6454  ,0.1535 ,-0.7525  ,-0.    ]])
 
-lista=np.arange(8)
+lista=np.arange(9)
 
 P_O2=np.zeros((10,10))
 
 for i in lista:
     P_O2 = np.matmul(np.array([coef[i,:]]).T,np.array([coef[:,i]])) + P_O2
     
-P_O2= 2*P_O2
+#P_O2= 2*P_O2
 
 
 print('Molécula O2, con base O(A)[0,0,0] y O(B)[1.208,0,0]')
