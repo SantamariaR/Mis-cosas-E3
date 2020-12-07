@@ -87,14 +87,14 @@ coef=np.array([[-0.703   ,0.7037 ,-0.1692 ,-0.1852 ,-0.     ,-0.0657  ,0.      ,
                 [ 0.     ,-0.      ,0.      ,0.      ,0.6454 ,-0.      ,0.1317 ,-0.7525 ,-0.1535  ,-0.    ],
                 [ 0.      ,0.     ,-0.      ,0.     ,-0.1317  ,0.      ,0.6454  ,0.1535 ,-0.7525  ,-0.    ]])
 
-lista=np.arange(9)
+lista=np.arange(8)
 
 P_O2=np.zeros((10,10))
 
 for i in lista:
     P_O2 = np.matmul(np.array([coef[i,:]]).T,np.array([coef[:,i]])) + P_O2
     
-#P_O2= 2*P_O2
+P_O2= 2*P_O2
 
 
 print('Molécula O2, con base O(A)[0,0,0] y O(B)[1.208,0,0]')
@@ -102,7 +102,9 @@ print('\n')
 print('Análisis poblacional de Mulliken')
 print('--------------------------------')
 
-R_O2= np.matmul(P_O2,S_O2)
+#R_O2= np.matmul(P_O2,S_O2)
+
+R_O2 = P_O2@S_O2
 
 d   = R_O2.diagonal()
 
@@ -131,12 +133,13 @@ Ssqrt_O2= sqrtm(S_O2)
 print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
 print('Cantidad de electrones calculada:\t',np.trace(np.matmul(Ssqrt_O2,np.matmul(P_O2,Ssqrt_O2))))
 
-R2_O2 = np.matmul(Ssqrt_O2,np.matmul(P_O2,Ssqrt_O2))
-
 print('\n')
 
 print('Grado de enlace de valencia')
 print('---------------------------')
+
+R2_O2 = np.matmul(Ssqrt_O2,np.matmul(P_O2,Ssqrt_O2))
+
 
 #Seguro que hay una manera más elegante, pero ahora no se me ocurre.
 
