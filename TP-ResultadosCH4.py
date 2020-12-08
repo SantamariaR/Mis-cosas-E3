@@ -82,7 +82,7 @@ coef=np.array([[ 0.9919 ,-0.2213  ,0.      ,0.     ,-0.     ,-0.     ,-0.     ,-
                  [-0.007   ,0.1807  ,0.4842  ,0.1943  ,0.0065  ,0.7105  ,0.7008 ,-0.3583 ,-0.665 ],
                  [-0.007   ,0.1807 ,-0.1115 ,-0.2047  ,0.4668 ,-0.4081  ,0.3468  ,0.9151 ,-0.665 ]])
 
-lista=np.arange(9)
+lista=np.arange(8)
 
 P_CH4=np.zeros((9,9))
 
@@ -99,18 +99,18 @@ print('--------------------------------')
 
 R_CH4= np.matmul(P_CH4,S_CH4)
 
-D_CH4 = P_CH4@S_CH4
+D_CH4 = P_CH4*S_CH4
 
 d     = R_CH4.diagonal()
 
-D     = np.diag(np.diag(R_CH4))
+D     = np.diag(np.diag(D_CH4))
 
 
 
 print('Cantidad de electrones esperada:\t', 10) # 6*1 + 4*1
 print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(D_CH4))
-print('Cantidad de electrones en la molécula:\t', sum(sum(D_CH4)))
-print('Cantidad de electrones compartidos en la molécula:\t', sum(sum(D_CH4-D))/2)
+print('Cantidad de electrones en la molécula:\t', np.sum(D_CH4))
+print('Cantidad de electrones compartidos en la molécula:\t', np.sum(D_CH4-D)/2)
 
 
 

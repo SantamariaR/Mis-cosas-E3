@@ -102,28 +102,28 @@ print('\n')
 print('Análisis poblacional de Mulliken')
 print('--------------------------------')
 
-#R_O2= np.matmul(P_O2,S_O2)
+R_O2 = np.matmul(P_O2,S_O2)
 
-R_O2 = P_O2@S_O2
+D_O2 = P_O2*S_O2
 
-d   = R_O2.diagonal()
+d    = D_O2.diagonal()
 
-D   = np.diag(np.diag(R_O2))
+D    = np.diag(np.diag(D_O2))
 
 
 
 print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
-print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(R_O2))
-print('Cantidad de electrones en la molécula:\t', sum(sum(R_O2)))
-print('Cantidad de electrones compartidos en la molécula:\t', sum(sum(R_O2-D))/2)
+print('Cantidad de electrones en la molécula:\t', np.sum(D_O2))
+print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(D_O2))
+print('Cantidad de electrones compartidos en la molécula:\t', np.sum(D_O2-D)/2)
 
 
 
 print('Cargas efectivas:\n')
 
 print('Cantidad de electrones del Oxígeno:\t',8)
-print('Q_Oxígeno1:\t', 8 - sum(d[0:5])) # (primeros cinco elementos de la diagonal)
-print('Q_Oxígeno2:\t', 8 - sum(d[5:10]))
+print('Q_Oxígeno1:\t', 8 - np.sum(d[0:5])) # (primeros cinco elementos de la diagonal)
+print('Q_Oxígeno2:\t', 8 - np.sum(d[5:10]))
 print('\n')
 print('Análisis poblacional de Lowdin')
 print('------------------------------')
