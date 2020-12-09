@@ -87,14 +87,19 @@ coef=np.array([[-0.703   ,0.7037 ,-0.1692 ,-0.1852 ,-0.     ,-0.0657  ,0.      ,
                 [ 0.     ,-0.      ,0.      ,0.      ,0.6454 ,-0.      ,0.1317 ,-0.7525 ,-0.1535  ,-0.    ],
                 [ 0.      ,0.     ,-0.      ,0.     ,-0.1317  ,0.      ,0.6454  ,0.1535 ,-0.7525  ,-0.    ]])
 
-lista=np.arange(8)
+a      = 8 #Nivel ocupado
+
+lista_i=np.arange(10)
+lista_j=np.arange(10)
 
 P_O2=np.zeros((10,10))
 
-for i in lista:
-    P_O2 = np.matmul(np.array([coef[i,:]]).T,np.array([coef[:,i]])) + P_O2
+for i in lista_i:
+    for j in lista_j:
+        P_O2[i,j] = np.sum(coef[j,0:a]*coef[i,0:a]) + P_O2[i,j]
     
 P_O2= 2*P_O2
+
 
 
 print('Molécula O2, con base O(A)[0,0,0] y O(B)[1.208,0,0]')

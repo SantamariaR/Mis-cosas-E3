@@ -72,22 +72,26 @@ Z_CH4=np.array([[ 0.      ,0.      ,0.      ,0.      ,0.0719  ,0.0048 ,-0.0048 ,
 #Nos armamos la matriz P, con los resultados de los coeficientes 
 
 
-coef=np.array([[ 0.9919 ,-0.2213  ,0.      ,0.     ,-0.     ,-0.     ,-0.     ,-0.     ,-0.252 ],
+coef=np.array([[ 0.9919 ,-0.2213  ,0.      ,0.     ,0.     ,0.     ,0.     ,0.     ,-0.252 ],
                  [ 0.0382  ,0.6287  ,0.     ,-0.      ,0.      ,0.      ,0.      ,0.      ,1.6223],
-                 [-0.      ,0.     ,-0.3535  ,0.0098 ,-0.4489  ,0.2726  ,0.9443  ,0.5019 ,-0.    ],
-                 [ 0.      ,0.      ,0.1376  ,0.5462 ,-0.0964  ,0.0595 ,-0.5306  ,0.9658 ,-0.    ],
-                 [-0.     ,-0.     ,-0.4274  ,0.1677  ,0.3402  ,1.0677 ,-0.2115 ,-0.182   ,0.    ],
+                 [0.      ,0.     ,-0.3535  ,0.0098 ,-0.4489  ,0.2726  ,0.9443  ,0.5019 ,0.    ],
+                 [ 0.      ,0.      ,0.1376  ,0.5462 ,-0.0964  ,0.0595 ,-0.5306  ,0.9658 ,0.    ],
+                 [0.     ,0.     ,-0.4274  ,0.1677  ,0.3402  ,1.0677 ,-0.2115 ,-0.182   ,0.    ],
                  [-0.007   ,0.1807 ,-0.3391  ,0.3815 ,-0.1081 ,-0.7765 ,-0.1122 ,-0.7132 ,-0.665 ],
                  [-0.007   ,0.1807 ,-0.0336 ,-0.3711 ,-0.3652  ,0.4741 ,-0.9354  ,0.1564 ,-0.665 ],
                  [-0.007   ,0.1807  ,0.4842  ,0.1943  ,0.0065  ,0.7105  ,0.7008 ,-0.3583 ,-0.665 ],
                  [-0.007   ,0.1807 ,-0.1115 ,-0.2047  ,0.4668 ,-0.4081  ,0.3468  ,0.9151 ,-0.665 ]])
 
-lista=np.arange(8)
+a    = 5 #Nivel ocupado
+
+lista_i=np.arange(9)
+lista_j=np.arange(9)
 
 P_CH4=np.zeros((9,9))
 
-for i in lista:
-    P_CH4 = np.matmul(np.array([coef[i,:]]).T,np.array([coef[:,i]])) + P_CH4
+for i in lista_i:
+    for j in lista_j:
+        P_CH4[i,j] = np.sum(coef[j,0:a]*coef[i,0:a]) + P_CH4[i,j]
     
 P_CH4= 2*P_CH4
 
@@ -97,9 +101,9 @@ print('\n')
 print('Análisis poblacional de Mulliken')
 print('--------------------------------')
 
-R_CH4= np.matmul(P_CH4,S_CH4)
+R_CH4= np.matmul(P_CH4,S_CH4) #Calculo de PS
 
-D_CH4 = P_CH4*S_CH4
+D_CH4 = P_CH4*S_CH4 #Calculo de D=P*S
 
 d     = R_CH4.diagonal()
 
@@ -138,42 +142,25 @@ print('---------------------------')
 
 R2_CH4 = np.matmul(Ssqrt_CH4,np.matmul(P_CH4,Ssqrt_CH4))
 
+
+fila5 = R_CH4[5,:]
+
+
+columna5 = R_CH4[:,5]
+
+
+fila8 = R_CH4[8,:]
+
+columna8 = R_CH4[:,8]
+
+W_CH = np.dot(fila5[0:5],columna5[0:5])
+W_HH = R_CH4[7,8]*R_CH4[8,7]
+
+print('Grado de enlace:')
+print('W_CH\t',W_CH)
+print('W_HH\t',W_HH)
+
 '''
-#Seguro que hay una manera más elegante, pero ahora no se me ocurre.
-
-fila0   = R_O2[0,5:]
-fila1   = R_O2[1,5:]
-fila2   = R_O2[2,5:]
-fila3   = R_O2[3,5:]
-fila4   = R_O2[4,5:]
-columna0= R_O2[5:,0]
-columna1= R_O2[5:,1]
-columna2= R_O2[5:,2]
-columna3= R_O2[5:,3]
-columna4= R_O2[5:,4]
-
-W_Mull= np.dot(fila0,columna0)+np.dot(fila1,columna1)+np.dot(fila2,columna2)+np.dot(fila3,columna3)+np.dot(fila4,columna4)
-
-
-Fila0   = R2_O2[0,5:]
-Fila1   = R2_O2[1,5:]
-Fila2   = R2_O2[2,5:]
-Fila3   = R2_O2[3,5:]
-Fila4   = R2_O2[4,5:]
-Columna0= R2_O2[5:,0]
-Columna1= R2_O2[5:,1]
-Columna2= R2_O2[5:,2]
-Columna3= R2_O2[5:,3]
-Columna4= R2_O2[5:,4]
-
-
-W_Low= np.dot(Fila0,Columna0)+np.dot(Fila1,Columna1)+np.dot(Fila2,Columna2)+np.dot(Fila3,Columna3)+np.dot(Fila4,Columna4)
-
-print('Grado de enlace mediante análisis de Mülliken:\t',W_Mull)
-
-print('Grado de enlace mediante análisis de Löwdin:\t',W_Low)
-
-print('\n')
 
 print('Momentos dipolares')
 print('------------------')
