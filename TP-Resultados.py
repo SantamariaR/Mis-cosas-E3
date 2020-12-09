@@ -96,7 +96,7 @@ P_O2=np.zeros((10,10))
 
 for i in lista_i:
     for j in lista_j:
-        P_O2[i,j] = np.sum(coef[j,0:a]*coef[i,0:a]) + P_O2[i,j]
+        P_O2[i,j] = np.sum(coef[j,0:a]*coef[i,0:a]) 
     
 P_O2= 2*P_O2
 
@@ -107,7 +107,7 @@ print('\n')
 print('Análisis poblacional de Mulliken')
 print('--------------------------------')
 
-R_O2 = np.matmul(P_O2,S_O2)
+R_O2 = np.matmul(S_O2,P_O2)
 
 D_O2 = P_O2*S_O2
 
@@ -119,14 +119,15 @@ D    = np.diag(np.diag(D_O2))
 
 print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
 print('Cantidad de electrones en la molécula:\t', np.sum(D_O2))
-print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(D_O2))
-print('Cantidad de electrones compartidos en la molécula:\t', np.sum(D_O2-D)/2)
+print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(D_O2)/a)
+print('Cantidad de electrones compartidos en la molécula:\t', np.sum(D_O2-D)*2)
 
+
+print('\n')
 
 
 print('Cargas efectivas:\n')
 
-print('Cantidad de electrones del Oxígeno:\t',8)
 print('Q_Oxígeno1:\t', 8 - np.sum(d[0:5])) # (primeros cinco elementos de la diagonal)
 print('Q_Oxígeno2:\t', 8 - np.sum(d[5:10]))
 print('\n')
@@ -134,9 +135,9 @@ print('Análisis poblacional de Lowdin')
 print('------------------------------')
 
 Ssqrt_O2= sqrtm(S_O2)
-
+Ssqrt_P_Ssqrt=np.matmul(Ssqrt_O2,np.matmul(P_O2,Ssqrt_O2))
 print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
-print('Cantidad de electrones calculada:\t',np.trace(np.matmul(Ssqrt_O2,np.matmul(P_O2,Ssqrt_O2))))
+print('Cantidad de electrones calculada:\t',np.trace(Ssqrt_P_Ssqrt))
 
 print('\n')
 
@@ -148,33 +149,20 @@ R2_O2 = np.matmul(Ssqrt_O2,np.matmul(P_O2,Ssqrt_O2))
 
 #Seguro que hay una manera más elegante, pero ahora no se me ocurre.
 
-fila0   = R_O2[0,5:]
-fila1   = R_O2[1,5:]
-fila2   = R_O2[2,5:]
-fila3   = R_O2[3,5:]
-fila4   = R_O2[4,5:]
-columna0= R_O2[5:,0]
-columna1= R_O2[5:,1]
-columna2= R_O2[5:,2]
-columna3= R_O2[5:,3]
-columna4= R_O2[5:,4]
-
-W_Mull= np.dot(fila0,columna0)+np.dot(fila1,columna1)+np.dot(fila2,columna2)+np.dot(fila3,columna3)+np.dot(fila4,columna4)
+atom_A=np.arange(5)
+atom_B=np.arange(5,10)
+W_Mull=0
+W_Low =0
 
 
-Fila0   = R2_O2[0,5:]
-Fila1   = R2_O2[1,5:]
-Fila2   = R2_O2[2,5:]
-Fila3   = R2_O2[3,5:]
-Fila4   = R2_O2[4,5:]
-Columna0= R2_O2[5:,0]
-Columna1= R2_O2[5:,1]
-Columna2= R2_O2[5:,2]
-Columna3= R2_O2[5:,3]
-Columna4= R2_O2[5:,4]
+for i in atom_A:
+    for j in atom_B:
+        W_Mull = R_O2[i,j]*R_O2[j,i]
 
+for i in atom_A:
+    for j in atom_B:
+        W_Low = Ssqrt_P_Ssqrt[i,j]*Ssqrt_P_Ssqrt[j,i]
 
-W_Low= np.dot(Fila0,Columna0)+np.dot(Fila1,Columna1)+np.dot(Fila2,Columna2)+np.dot(Fila3,Columna3)+np.dot(Fila4,Columna4)
 
 print('Grado de enlace mediante análisis de Mülliken:\t',W_Mull)
 
@@ -185,7 +173,6 @@ print('\n')
 print('Momentos dipolares')
 print('------------------')
 
-#Acá estoy menos seguro de lo que estoy haciendo.
 Px=np.trace(np.matmul(P_O2,X_O2))
 Py=np.trace(np.matmul(P_O2,Y_O2))
 Pz=np.trace(np.matmul(P_O2,Z_O2))
@@ -193,10 +180,10 @@ print('Eje X')
 print('Px:\t', Px + 8*1.208)
 print('\n')
 print('Eje Y')
-print('Px:\t', Py)
+print('Py:\t', Py)
 print('\n')
 print('Eje Z')
-print('Px:\t', Pz)
+print('Pz:\t', Pz)
 
 
 

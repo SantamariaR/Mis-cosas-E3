@@ -91,7 +91,7 @@ P_CH4=np.zeros((9,9))
 
 for i in lista_i:
     for j in lista_j:
-        P_CH4[i,j] = np.sum(coef[j,0:a]*coef[i,0:a]) + P_CH4[i,j]
+        P_CH4[i,j] = np.sum(coef[j,0:a]*coef[i,0:a]) 
     
 P_CH4= 2*P_CH4
 
@@ -112,9 +112,9 @@ D     = np.diag(np.diag(D_CH4))
 
 
 print('Cantidad de electrones esperada:\t', 10) # 6*1 + 4*1
-print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(D_CH4))
+print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(D_CH4)/a)
 print('Cantidad de electrones en la molécula:\t', np.sum(D_CH4))
-print('Cantidad de electrones compartidos en la molécula:\t', np.sum(D_CH4-D)/2)
+print('Cantidad de electrones compartidos en la molécula:\t', np.sum(D_CH4-D)*2)
 
 
 
@@ -140,9 +140,24 @@ print('\n')
 print('Grado de enlace de valencia')
 print('---------------------------')
 
-R2_CH4 = np.matmul(Ssqrt_CH4,np.matmul(P_CH4,Ssqrt_CH4))
+Ssqrt_P_Ssqrt = np.matmul(Ssqrt_CH4,np.matmul(P_CH4,Ssqrt_CH4))
 
 
+atom_A=np.arange(5)
+atom_B=np.arange(5,6)
+W_Mull=0
+W_Low =0
+
+
+for i in atom_A:
+    for j in atom_B:
+        W_Mull = R_CH4[i,j]*R_CH4[j,i]
+
+for i in atom_A:
+    for j in atom_B:
+        W_Low = Ssqrt_P_Ssqrt[i,j]*Ssqrt_P_Ssqrt[j,i]
+
+'''
 fila5 = R_CH4[5,:]
 
 
@@ -156,26 +171,11 @@ columna8 = R_CH4[:,8]
 W_CH = np.dot(fila5[0:5],columna5[0:5])
 W_HH = R_CH4[7,8]*R_CH4[8,7]
 
+'''
+
+
+
 print('Grado de enlace:')
 print('W_CH\t',W_CH)
 print('W_HH\t',W_HH)
 
-'''
-
-print('Momentos dipolares')
-print('------------------')
-
-#Acá estoy menos seguro de lo que estoy haciendo.
-Px=np.trace(np.matmul(P_O2,X_O2))
-Py=np.trace(np.matmul(P_O2,Y_O2))
-Pz=np.trace(np.matmul(P_O2,Z_O2))
-print('Eje X')
-print('Px:\t', Px + 8*1.208)
-print('\n')
-print('Eje Y')
-print('Px:\t', Py)
-print('\n')
-print('Eje Z')
-print('Px:\t', Pz)
-
-'''

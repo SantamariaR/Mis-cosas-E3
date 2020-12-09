@@ -87,12 +87,17 @@ coef=np.array([[-0.703   ,0.7037 ,-0.1692 ,-0.1852  ,0.      ,0.0657  ,0.     ,-
                  [-0.     ,-0.      ,0.     ,-0.      ,0.2298  ,0.      ,0.6173  ,0.268   ,0.7197  ,-0.    ],
                  [-0.     ,-0.     ,-0.      ,0.      ,0.6173  ,0.     ,-0.2298  ,0.7197 ,-0.268    ,0.    ]])
 
-lista=np.arange(8)
+
+a      = 8 #Nivel ocupado
+
+lista_i=np.arange(10)
+lista_j=np.arange(10)
 
 P_O2=np.zeros((10,10))
 
-for i in lista:
-    P_O2 = np.matmul(np.array([coef[i,:]]).T,np.array([coef[:,i]])) + P_O2
+for i in lista_i:
+    for j in lista_j:
+        P_O2[i,j] = np.sum(coef[j,0:a]*coef[i,0:a]) + P_O2[i,j]
     
 P_O2= 2*P_O2
 
@@ -102,7 +107,7 @@ print('\n')
 print('Análisis poblacional de Mulliken')
 print('--------------------------------')
 
-R_O2 = np.matmul(P_O2,S_O2)
+R_O2 = np.matmul(S_O2,P_O2)
 
 D_O2 = P_O2*S_O2
 
@@ -114,8 +119,8 @@ D    = np.diag(np.diag(D_O2))
 
 print('Cantidad de electrones esperada:\t', 16) # 8*1 + 8*1
 print('Cantidad de electrones en la molécula:\t', np.sum(D_O2))
-print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(D_O2))
-print('Cantidad de electrones compartidos en la molécula:\t', np.sum(D_O2-D)/2)
+print('Cantidad de electrones asignados por orb. atómicos:\t', np.trace(D_O2)/a)
+print('Cantidad de electrones compartidos en la molécula:\t', np.sum(D_O2-D)*2)
 
 
 
